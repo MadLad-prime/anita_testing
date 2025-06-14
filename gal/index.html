@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - MySite</title>
+    <link rel="stylesheet" href="admin.css">
+    <!-- Google Fonts (Example: Montserrat & Open Sans) -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Additional styles for auth & premium look enhancements */
+        #auth-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh; /* Full viewport height */
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Vibrant gradient */
+            color: white;
+            padding: 20px;
+        }
+        #auth-container h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        #auth-container p {
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        #sign-in-button {
+            background-color: #ffffff;
+            color: #667eea; /* Primary color from gradient */
+            border: none;
+            padding: 15px 35px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px; /* Pill shape */
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        #sign-in-button:hover {
+            background-color: #f0f0f0;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+        #auth-error {
+            color: #ffdddd; /* Lighter red for dark background */
+            background-color: rgba(255,0,0,0.2);
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: inline-block; /* Only take space if there's an error */
+        }
+        .user-info {
+            margin-bottom: 25px;
+            font-size: 0.9rem;
+            color: #ecf0f1; /* Light color for sidebar */
+            padding: 0 15px;
+            text-align: center;
+        }
+        .user-info img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-bottom: 8px;
+            border: 2px solid #5468ff; /* Accent border */
+        }
+        .user-info strong {
+            display: block;
+            font-size: 1rem;
+            color: #fff;
+        }
+        /* Hide dashboard initially */
+        .dashboard-container {
+            display: none; /* Hidden until authenticated */
+        }
+        /* Style for sidebar toggle when sidebar is open */
+        .sidebar:not(.closed) + .main-content .sidebar-toggle {
+            /* If you want to move the toggle button when sidebar is open */
+            /* left: 220px; Example: Adjust to match sidebar width */
+        }
+    </style>
+</head>
+<body>
+
+    <div id="auth-container">
+        <h1>Welcome to the Admin Dashboard</h1>
+        <p>Please sign in with your Google account to continue.</p>
+        <button id="sign-in-button">Sign in with Google</button>
+        <div id="auth-error" style="display: none;"></div>
+    </div>
+
+    <!-- Sidebar Toggle Button (always visible, styled in admin.css) -->
+    <!-- Moved this inside dashboard-container to hide it when not authenticated -->
+    
+    <div class="dashboard-container"> <!-- This will be shown after login -->
+        <button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle Sidebar">☰</button>
+        <aside class="sidebar closed"> <!-- Start with sidebar closed by default -->
+            <h1>Admin Panel</h1>
+            <div id="user-info-display" class="user-info">
+                <!-- User info will be injected here -->
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#gallery-management">Gallery Management</a></li>
+                    <li><a href="#blog-management">Blog Management</a></li>
+                    <li><a href="gallery.html" target="_blank">View Live Gallery</a></li>
+                    <li><a href="blog.html" target="_blank">View Live Blog</a></li>
+                </ul>
+            </nav>
+            <button id="sign-out-button-sidebar" class="button button-secondary" style="margin: 30px auto; display: block; background-color: #e74c3c;">Sign Out</button>
+        </aside>
+        <main class="main-content">
+            <section id="gallery-management" class="content-section">
+                <h2>Manage Gallery Images</h2>
+                <p>Upload new images to the public photo gallery.</p>
+                <button id="gallery-upload-button" class="button">Upload Gallery Images</button>
+                <div id="status"></div>
+            </section>
+
+            <section id="blog-management" class="content-section">
+                <h2>Create New Blog Post</h2>
+                <div class="form-group">
+                    <label for="blog-title">Post Title</label>
+                    <input type="text" id="blog-title" name="blog-title" placeholder="Enter an engaging title">
+                </div>
+                <div class="form-group">
+                    <label for="blog-content">Post Content</label>
+                    <textarea id="blog-content" name="blog-content" placeholder="Write your amazing blog post here..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="blog-cover-upload-button">Cover Image (Optional)</label>
+                    <button id="blog-cover-upload-button" class="button button-secondary">Upload Cover Image</button>
+                    <img id="blog-cover-preview" src="#" alt="Cover image preview">
+                </div>
+                <button id="publish-blog-button" class="button">Publish Post</button>
+                <div id="blog-status"></div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    
+    <script src="firebase-config.js"></script>
+
+    <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
+    
+    <script src="admin.js"></script>
+</body>
+</html>

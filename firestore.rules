@@ -1,0 +1,18 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Blog Posts
+    match /blogPosts/{postId} {
+      // Anyone can read blog posts
+      allow read: if true;
+
+      // Only authenticated users can create blog posts
+      allow create: if request.auth != null;
+
+      // Only authenticated users can update or delete (for now)
+      // For better security later, you'd restrict this to the author or an admin role
+      allow update, delete: if request.auth != null;
+    }
+    // ... other rules for gallery, bookings, etc. if you add them
+  }
+}

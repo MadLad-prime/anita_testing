@@ -1,0 +1,288 @@
+body {
+    /* Changed font-family to use Google Fonts as primary */
+    font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    background-color: #eef1f5; /* Lighter, softer background */
+    color: #4a5568; /* Softer black for text */
+    display: flex; /* Kept from previous, good for auth layout */
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased; /* Smoother fonts */
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.dashboard-container {
+    display: flex; /* This will be overridden to 'none' by inline style initially */
+    width: 100%;
+}
+
+.sidebar {
+    width: 260px; /* Slightly wider */
+    background-color: #1a202c; /* Darker, more premium sidebar */
+    color: #e2e8f0; /* Lighter text for dark bg */
+    padding-top: 20px; /* Adjusted padding */
+    flex-shrink: 0;
+    transition: transform 0.3s ease-in-out;
+    position: relative; /* Changed from fixed for normal flow */
+    min-height: 100vh; /* Ensure it spans full height */
+    box-shadow: 5px 0px 15px rgba(0,0,0,0.1); /* Subtle shadow */
+}
+
+.sidebar.closed {
+    transform: translateX(-100%); /* Hide completely */
+}
+
+.sidebar h1 {
+    text-align: center;
+    font-family: 'Montserrat', sans-serif; /* Heading font */
+    font-size: 1.6rem; /* Slightly smaller, more refined */
+    font-weight: 600;
+    margin-bottom: 25px;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+}
+
+.sidebar nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar nav li a {
+    display: flex; /* For icon alignment if added */
+    align-items: center;
+    padding: 14px 25px; /* Increased padding */
+    color: #a0aec0; /* Softer link color */
+    text-decoration: none;
+    font-size: 0.95rem; /* Slightly smaller */
+    font-weight: 500;
+    transition: all 0.25s ease-in-out;
+    border-left: 4px solid transparent; /* Thicker active border */
+}
+
+.sidebar nav li a:hover {
+    background-color: #2d3748; /* Darker hover */
+    color: #ffffff;
+    border-left-color: #4a5568; /* Subtle hover border */
+}
+.sidebar nav li a.active {
+    background-color: #2d3748;
+    color: #ffffff;
+    font-weight: 600;
+    border-left-color: #6366f1; /* Vibrant active color - Indigo */
+}
+/* Optional: Add icons to nav links later */
+/* .sidebar nav li a .icon { margin-right: 10px; } */
+
+.sidebar-toggle {
+    position: fixed; /* Keep it fixed for easy access */
+    left: 15px; /* Position from left */
+    top: 15px; /* Position from top */
+    z-index: 1100;
+    background-color: #2d3748; /* Consistent dark color */
+    border: none;
+    color: #e2e8f0;
+    font-size: 1.6rem; /* Larger icon */
+    padding: 8px 12px; /* Adjusted padding */
+    cursor: pointer;
+    border-radius: 8px; /* Rounded corners */
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+.sidebar-toggle:hover {
+    background-color: #4a5568;
+}
+
+.sidebar.closed ~ .main-content { /* Adjust main content margin when sidebar is closed */
+    margin-left: 0;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 35px; /* Increased padding */
+    overflow-y: auto;
+    transition: margin-left 0.3s ease-in-out;
+    margin-left: 260px; /* Account for open sidebar width */
+}
+.sidebar.closed + .main-content { /* Use + if toggle is outside sidebar, ~ if toggle is before dashboard */
+    margin-left: 0;
+}
+
+
+.content-section {
+    display: none;
+    background-color: #ffffff;
+    padding: 30px; /* Increased padding */
+    border-radius: 12px; /* More rounded */
+    box-shadow: 0 8px 25px rgba(140, 152, 164, 0.15); /* Softer, more diffused shadow */
+    margin-bottom: 30px; /* Space between sections if multiple were visible */
+}
+
+.content-section.active {
+    display: block;
+}
+
+.content-section h2 {
+    font-family: 'Montserrat', sans-serif;
+    margin-top: 0;
+    font-size: 2rem; /* Larger section titles */
+    font-weight: 600;
+    color: #1a202c; /* Darker heading color */
+    border-bottom: 1px solid #e2e8f0; /* Lighter border */
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+}
+.content-section p {
+    color: #4a5568;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 10px; /* Increased space */
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #2d3748; /* Darker label */
+}
+
+.form-group input[type="text"],
+.form-group textarea {
+    width: 100%;
+    padding: 14px; /* Increased padding */
+    border: 1px solid #cbd5e0; /* Softer border */
+    border-radius: 8px; /* More rounded */
+    box-sizing: border-box;
+    font-size: 1rem;
+    color: #2d3748;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.form-group input[type="text"]:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #6366f1; /* Indigo focus */
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2); /* Focus ring */
+}
+
+.form-group textarea {
+    min-height: 180px; /* Adjusted */
+    resize: vertical;
+}
+
+/* Button Styles */
+.button, button {
+    background-color: #6366f1; /* Indigo primary button */
+    color: white;
+    border: none;
+    padding: 14px 30px; /* Balanced padding */
+    font-size: 1rem;
+    font-weight: 600; /* Bolder text */
+    border-radius: 8px; /* Consistent rounding */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    box-shadow: 0 4px 6px rgba(99, 102, 241, 0.2);
+}
+
+.button:hover, button:hover {
+    background-color: #4f46e5; /* Darker Indigo */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(99, 102, 241, 0.3);
+}
+
+.button-secondary {
+    background-color: #64748b; /* Slate color for secondary */
+    box-shadow: 0 4px 6px rgba(100, 116, 139, 0.2);
+}
+.button-secondary:hover {
+    background-color: #475569; /* Darker Slate */
+    box-shadow: 0 6px 12px rgba(100, 116, 139, 0.3);
+}
+
+#status, #blog-status {
+    margin-top: 25px;
+    padding: 12px 15px; /* Increased padding */
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+#status.success, #blog-status.success {
+    background-color: #d1fae5; /* Lighter green */
+    color: #065f46; /* Darker green text */
+    border: 1px solid #6ee7b7;
+}
+#status.error, #blog-status.error {
+    background-color: #fee2e2; /* Lighter red */
+    color: #991b1b; /* Darker red text */
+    border: 1px solid #fca5a5;
+}
+
+#blog-cover-preview {
+    max-width: 250px; /* Larger preview */
+    max-height: 200px;
+    margin-top: 15px;
+    border: 2px dashed #cbd5e0; /* Dashed border */
+    border-radius: 8px;
+    display: none;
+    padding: 5px; /* Inner padding */
+    background-color: #f8fafc;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 900px) {
+    .sidebar {
+        position: fixed; /* Crucial for mobile overlay */
+        left: 0;
+        top: 0;
+        height: 100vh;
+        z-index: 1001; /* Ensure it's above main content but below toggle */
+        transform: translateX(-100%); /* Fully hide when closed */
+    }
+    .sidebar.closed {
+        transform: translateX(-100%);
+    }
+    .sidebar:not(.closed) { /* When open */
+        transform: translateX(0);
+    }
+    .main-content {
+        margin-left: 0; /* No margin when sidebar can overlay */
+        padding-left: 20px; /* Add some padding if sidebar toggle is there */
+        padding-right: 20px;
+        width: 100%; /* Take full width */
+        box-sizing: border-box;
+    }
+    .sidebar-toggle { /* Ensure toggle is accessible */
+        display: block; 
+    }
+}
+
+@media (max-width: 600px) {
+    .sidebar {
+        width: 220px; /* Adjust width for smaller screens */
+    }
+    .main-content {
+        padding: 20px 15px; /* Adjust padding */
+    }
+    .content-section {
+        padding: 20px;
+    }
+    .content-section h2 {
+        font-size: 1.6rem;
+    }
+    .button, button {
+        padding: 12px 20px;
+        font-size: 0.9rem;
+    }
+    #blog-cover-preview {
+        max-width: 100%; /* Full width on small screens */
+    }
+    .form-group input[type="text"],
+    .form-group textarea {
+        padding: 12px;
+    }
+}
