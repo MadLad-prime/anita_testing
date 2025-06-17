@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Woke Coffee - The Journal</title>
+    
+    <!-- Woke Coffee Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- The New Woke Coffee Blog Stylesheet -->
+    <link rel="stylesheet" href="blog.css">
+
+    <!-- Add your favicon here -->
+    <!-- <link rel="icon" href="favicon.ico" type="image/x-icon"> -->
+</head>
+<body>
+
+    <!-- 1. Woke Coffee Header -->
+    <header class="main-header">
+        <nav class="main-nav container">
+            <a href="/index.html" class="logo">WOKE COFFEE</a>
+            <ul class="nav-links">
+                <li><a href="/shop/index.html">Shop</a></li>
+                <li><a href="index.html" class="nav-link-active">Blog</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <a href="index.html#shop" class="cta-button">Explore Blends</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- 2. Woke Coffee Page Hero Section -->
+        <section class="page-hero-section">
+            <div class="hero-background"></div>
+            <div class="hero-content">
+                <h1 class="hero-title fade-in-on-load">The Journal</h1>
+                <p class="hero-subtitle fade-in-on-load">Stories, roasting science, and the pursuit of the perfect cup.</p>
+            </div>
+        </section>
+
+        <!-- 3. Woke Coffee Blog Grid -->
+        <section class="blog-grid-section">
+            <div class="container">
+                <!-- Loader and list div targeted by blog.js -->
+                <div id="blog-loader" class="loader"></div>
+                <div id="blog-posts-list" class="posts-grid">
+                    <!-- Blog post cards will be injected here by blog.js -->
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- 4. Woke Coffee Lightbox Modal -->
+    <div id="blog-lightbox" class="lightbox-modal" aria-hidden="true">
+        <div class="lightbox-overlay" data-close-lightbox></div>
+        <div class="lightbox-content-wrapper">
+            <button class="lightbox-close" data-close-lightbox aria-label="Close">×</button>
+            <div class="lightbox-content-scrollable">
+                <!-- Full blog post content is injected here by blog.js -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- 5. Woke Coffee Footer -->
+    <footer class="main-footer">
+        <div class="container footer-grid">
+            <div class="footer-col about">
+                <a href="/index.html" class="logo">WOKE COFFEE</a>
+                <p>Awakening the future of coffee, one conscious cup at a time.</p>
+            </div>
+            <div class="footer-col links">
+                <h4>Navigate</h4>
+                <ul>
+                    <li><a href="#">contact</a></li>
+                    <li><a href="#">Our Story</a></li>
+                    <li><a href="/shop/index.html">shop</a></li>
+                    <li><a href="/admin/index.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col connect">
+                <h4>Connect</h4>
+                <p>hello@wokecoffee.com</p>
+                <p>Instagram / Twitter</p>
+            </div>
+            <div class="footer-col newsletter">
+                <h4>Join the Awakening</h4>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Enter your email" required>
+                    <button type="submit">→</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom-bar">
+            <p>© <span id="current-year"></span> Woke Coffee. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Firebase SDKs - These should not be changed -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    
+    <!-- Your Firebase Configuration File -->
+    <script src="firebaseConfig.js"></script> <!-- ⚠️  MAKE SURE THIS FILE EXISTS! -->
+
+    <!-- The Adapted blog.js Script -->
+    <script src="blog.js"></script>
+</body>
+</html>
